@@ -4,7 +4,7 @@ const app = require('../src/app');
 
 
 describe('POST v1/person', () => {
-    test('deve criar e armazenar uma nova pessoa no banco de dados', async () => {
+    test('deve limpar todos os usuários e relações do banco de dados', async () => {
         // create a person
         await request(app)
             .post('/v1/person')
