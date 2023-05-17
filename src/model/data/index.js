@@ -80,7 +80,6 @@ const readRecommendation = (myCpf) => {
         .sort((a, b) => b[1] - a[1])
         .map(([cpf]) => cpf);
 
-    console.log(sortedRecommendations);
     return sortedRecommendations;
 }
 
