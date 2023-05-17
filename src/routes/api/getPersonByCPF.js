@@ -1,4 +1,4 @@
-const globalData = require("../../model/data/globalData");
+const Person = require("../../model/Person");
 const { createSuccessResponse, createErrorResponse } = require("../../response");
 
 /**
@@ -10,7 +10,7 @@ const { createSuccessResponse, createErrorResponse } = require("../../response")
 module.exports = (req, res) => {
     const { cpf } = req.params;
 
-    const person = globalData.people[cpf];
+    const person = Person.getPersonByCPF(cpf);
 
     if (person) {
         const successResponse = createSuccessResponse(person);

@@ -1,4 +1,4 @@
-const globalData = require("../../model/data/globalData");
+const Person = require("../../model/Person");
 const { createErrorResponse, createSuccessResponse } = require("../../response");
 const { validateCPF } = require("../../utils/validateCPF");
 
@@ -10,14 +10,6 @@ const { validateCPF } = require("../../utils/validateCPF");
  */
 module.exports = (req, res) => {
     const { cpf1, cpf2 } = req.body;
-    const { people, relationshipsAJ } = globalData;
-
-    // const person1 = people.find(person => person.cpf === cpf1);
-    // const person2 = people.find(person => person.cpf === cpf2);
-
-    const person1 = people[cpf1];
-    const person2 = people[cpf2];
-
 
     // validar os dois cpfs
     if (!validateCPF(cpf1) || !validateCPF(cpf2)) {
@@ -26,41 +18,26 @@ module.exports = (req, res) => {
     }
 
     // checar se os dois cpfs estão no banco de dados
+    const person1 = Person.getPersonByCPF(cpf1);
+    const person2 = Person.getPersonByCPF(cpf2);
+
+
     if (!person1 || !person2) {
         const errorResponse = createErrorResponse(404, "Usuário não cadastrado");
         return res.status(errorResponse.error.code).json(errorResponse);
     }
 
     // checar se relação já não é existente
-    if (relationshipsAJ[cpf1].includes(cpf2) && relationshipsAJ[cpf2].includes(cpf1)) {
+    const relationshipAJ1 = Person.getRelationshipsById(cpf1);
+    const relationshipAJ2 = Person.getRelationshipsById(cpf2);
+
+
+    if (relationshipAJ1.includes(cpf2) && relationshipAJ2.includes(cpf1)) {
         const errorResponse = createErrorResponse(400, "Relacionamento já existe");
         return res.status(400).json(errorResponse);
     }
 
-
-    /**
-     *  criar relação
-     * relationshipsAJ é uma lista adjacente onde a chave é os cpf do usuário,
-     * e o valor é uma lista contendo todas a relações do usuário.
-     * como toda relação é bidirecional, cpf1 adiciona cpf2 e cpf2 adiciona cpf1 
-     * exemplo:
-     * Antes da relação
-     * {
-     *  "11111111111": [],
-     *  "22222222222": []
-     * }
-     * 
-     * Depois da relação
-     * 
-     * {
-     *  "11111111111": ["22222222222"],
-     *  "22222222222": ["11111111111"]
-     * }
-     */
-    relationshipsAJ[cpf1].push(cpf2);
-    relationshipsAJ[cpf2].push(cpf1);
-
-
+    Person.addRelationship(cpf1, cpf2);
 
     // retornar resposta afirmativa
     const successResponse = createSuccessResponse({ "message": `Relação criada entre ${cpf1} e ${cpf2}` });

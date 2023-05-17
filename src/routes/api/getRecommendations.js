@@ -1,6 +1,6 @@
-const globalData = require("../../model/data/globalData");
 const { createErrorResponse, createSuccessResponse } = require("../../response");
 const { validateCPF } = require('../../utils/validateCPF');
+const { readRecommendation, readPerson } = require('../../model/data/index');
 
 /**
  * Baseado no CPF recebido no req.params, retornar as recomendações de pessoas
@@ -13,7 +13,6 @@ const { validateCPF } = require('../../utils/validateCPF');
  */
 module.exports = (req, res) => {
     const { cpf } = req.params;
-    const { people, relationshipsAJ } = globalData;
 
     // Verifica se o CPF tem 11 dígitos numéricos
     if (!validateCPF(cpf)) {
@@ -21,35 +20,15 @@ module.exports = (req, res) => {
         return res.status(400).json(errorResponse);
     }
 
-    const person = people[cpf];
+    const person = readPerson(cpf);
 
     if (!person) {
         const errorResponse = createErrorResponse(404, 'Usuário não encontrado');
         return res.status(404).json(errorResponse);
     }
 
-    // obtem lista de amigos da aj
-    const friends = relationshipsAJ[cpf];
-
-    const recommendations =
-        // reduce para iterar na array filtrada e criar um novo objeto contendo
-        // o score de cada recomendação
-        friends.reduce((acc, cpf) => {
-            relationshipsAJ[cpf].forEach(friend => {
-                if (!friends.includes(friend) && friend !== person.cpf) {
-                    acc[friend] = (acc[friend] || 0) + 1;
-                }
-            });
-            return acc;
-        }, {});
-
-
-    // Ordena as recomendações pela relevância
-    const sortedRecommendations = Object.entries(recommendations)
-        // apenas scores > 0 são considerados para ordenamento
-        .filter(([_, score]) => score > 0)
-        .sort((a, b) => b[1] - a[1])
-        .map(([cpf]) => cpf);
+    // chama funcão para pegar os recomendados para o usuário
+    const sortedRecommendations = readRecommendation(person.cpf);
 
     const successResponse = createSuccessResponse({ data: sortedRecommendations });
     return res.status(200).json(successResponse);

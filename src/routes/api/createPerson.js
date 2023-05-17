@@ -1,6 +1,5 @@
 // POST v1/person
 
-const globalData = require("../../model/data/globalData");
 const { createSuccessResponse, createErrorResponse } = require("../../response");
 const Person = require('../../model/Person');
 
@@ -13,21 +12,18 @@ const Person = require('../../model/Person');
 
 module.exports = (req, res) => {
     const { cpf, name } = req.body;
-    let { people, relationshipsAJ } = globalData;
 
     try {
         const person = new Person(cpf, name);
 
         // Verifica se a pessoa já está cadastrada
-        if (people[person.cpf]) {
+        if (Person.getPersonByCPF(person.cpf)) {
             const errorResponse = createErrorResponse(400, 'Usuário já cadastrado');
             return res.status(400).json(errorResponse);
         }
 
-        // adiciona pessoa na lista de usuários
-        people[person.cpf] = person;
-        // cria uma nova lista de relações vazia para o usuário
-        relationshipsAJ[person.cpf] = [];
+        // salva usuário na lista
+        person.save();
 
         const successResponse = createSuccessResponse(person);
 
