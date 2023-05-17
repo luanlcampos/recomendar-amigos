@@ -2,37 +2,37 @@
 
 This is a Node.js API for recommending friends of friends based on a given person's CPF (Cadastro de Pessoas Físicas). The API allows creating persons, establishing relationships between them, and retrieving friend recommendations.
 
-## Getting Started
+# Getting Started
 
 To run the API locally, follow these steps:
 
-### 1. Clone the repository:
+## 1. Clone the repository:
 
 ```bash
 git clone https://github.com/luanlcampos/recomendar-amigos.git
 ```
 
-### 2. Navigate to the project directory:
+## 2. Navigate to the project directory:
 
 ```bash
 cd recomendar-amigos
 ```
 
-### 3. Install the dependencies:
+## 3. Install the dependencies:
 
 ```bash
 npm install
 ```
 
-### 4. Start the server:
+## 4. Start the server:
 
 ```bash
  npm start
 ```
 
-### 5. The API will be available at http://localhost:3000.
+## 5. The API will be available at http://localhost:3000.
 
-## Project Structure
+# Project Structure
 
 The project structure is organized as follows:
 
@@ -78,11 +78,248 @@ src
 | server.js                | Server setup and configuration                                      |
 | utils/validateCPF.js     | Utility function for validating CPF format                          |
 
-## API Endpoints
+# API Endpoints
 
-- POST /api/person: Create a new person.
-- POST /api/relationship: Create a relationship between two persons.
-- GET /api/person/:cpf: Retrieve a person by CPF.
-- GET /api/recommendations/:cpf: Get friend recommendations for a person.
+## Person
 
-Refer to the API route handlers for detailed information on the request and response format.
+| Method | Description         | Endpoint   |
+| ------ | ------------------- | ---------- |
+| POST   | Create a new person | /v1/person |
+
+<details>
+<summary> Request </summary>
+
+```bash
+curl --location 'localhost:3000/v1/person' \
+--header 'Content-Type: application/json' \
+--data '{ "cpf": "77777777777", "name": "Giba" }'
+```
+
+</details>
+
+<details>
+<summary>HTTP 200: Successful Response </summary>
+
+```json
+{
+  "status": "ok",
+  "cpf": "77777777777",
+  "name": "Giba"
+}
+```
+
+</details>
+
+<details>
+<summary>Error Responses</summary>
+
+### HTTP 400: User already exists
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": 400,
+    "message": "Usuário já cadastrado"
+  }
+}
+```
+
+### HTTP 400: Invalid CPF
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": 400,
+    "message": "Requisição inválida: Ocorreu um erro na criação de uma pessoa"
+  }
+}
+```
+
+</details>
+
+| Method | Description              | Endpoint        |
+| ------ | ------------------------ | --------------- |
+| GET    | Retrieve a person by CPF | /v1/person/:cpf |
+
+<details>
+<summary> Request </summary>
+
+```bash
+curl --location 'localhost:3000/v1/person/77777777777'
+```
+
+</details>
+
+<details>
+<summary> HTTP 200: Successful Response </summary>
+
+```json
+{
+  "status": "ok",
+  "cpf": "77777777777",
+  "name": "Giba"
+}
+```
+
+</details>
+
+<details>
+<summary>Error Reponses</summary>
+
+### HTTP 400: User not found
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": 404,
+    "message": "Usuário não encontrado"
+  }
+}
+```
+
+</details>
+
+## Relationship
+
+| Method | Description         | Endpoint         |
+| ------ | ------------------- | ---------------- |
+| POST   | Create a new person | /v1/relationship |
+
+<details>
+<summary> Request </summary>
+
+```bash
+curl --location 'localhost:3000/v1/relationship' \
+--header 'Content-Type: application/json' \
+--data '{ "cpf1": "11111111111", "cpf2": "22222222222" }'
+```
+
+</details>
+
+<details>
+<summary>HTTP 200: Successful Response </summary>
+
+```json
+{
+  "status": "ok",
+  "cpf": "77777777777",
+  "name": "Giba"
+}
+```
+
+</details>
+
+<details>
+<summary>Error Responses</summary>
+
+### HTTP 404: User not found
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": 404,
+    "message": "Usuário não encontrado"
+  }
+}
+```
+
+### HTTP 400: Invalid CPF
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": 400,
+    "message": "CPF inválido"
+  }
+}
+```
+
+</details>
+
+## Recommendations
+
+| Method | Description                             | Endpoint                 |
+| ------ | --------------------------------------- | ------------------------ |
+| GET    | Get friend recommendations for a person | /v1/recommendations/:cpf |
+
+<details>
+<summary> Request </summary>
+
+```bash
+curl --location 'localhost:3000/v1/recommendations/11111111111'
+```
+
+</details>
+
+<details>
+<summary>HTTP 200: Successful Response </summary>
+
+```json
+{
+  "status": "ok",
+  "data": ["44444444444", "55555555555"]
+}
+```
+
+</details>
+
+<details>
+<summary>Error Responses</summary>
+
+### Code 404: User not found
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": 404,
+    "message": "Usuário não cadastrado"
+  }
+}
+```
+
+### Code 400: Invalid CPF
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": 400,
+    "message": "CPF inválido"
+  }
+}
+```
+
+</details>
+
+## Clean Data
+
+| Method | Description                       | Endpoint  |
+| ------ | --------------------------------- | --------- |
+| DELETE | Delete all data from the database | /v1/clean |
+
+<details>
+<summary> Request </summary>
+
+```bash
+curl --location --request DELETE 'localhost:3000/v1/clean'
+```
+
+</details>
+
+<details>
+<summary>HTTP 200: Successful Response </summary>
+
+```json
+{
+  "status": "ok",
+  "message": "Dados excluídos com sucesso"
+}
+```
+
+</details>
