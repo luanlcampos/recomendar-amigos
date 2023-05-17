@@ -145,7 +145,7 @@ curl --location 'localhost:3000/v1/person' \
   "status": "error",
   "error": {
     "code": 400,
-    "message": "Requisição inválida: Ocorreu um erro na criação de uma pessoa"
+    "message": "CPF Inválido"
   }
 }
 ```
@@ -247,7 +247,7 @@ curl --location 'localhost:3000/v1/relationship' \
   "status": "error",
   "error": {
     "code": 400,
-    "message": "CPF inválido"
+    "message": "CPF Inválido"
   }
 }
 ```
@@ -291,7 +291,7 @@ curl --location 'localhost:3000/v1/recommendations/11111111111'
   "status": "error",
   "error": {
     "code": 404,
-    "message": "Usuário não cadastrado"
+    "message": "Usuário não encontrado"
   }
 }
 ```
@@ -303,7 +303,7 @@ curl --location 'localhost:3000/v1/recommendations/11111111111'
   "status": "error",
   "error": {
     "code": 400,
-    "message": "CPF inválido"
+    "message": "CPF Inválido"
   }
 }
 ```

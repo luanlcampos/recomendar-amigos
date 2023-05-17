@@ -1,10 +1,9 @@
 const globalData = require('./globalData');
 let { people, relationshipsAJ } = globalData;
 
-
 /**
  * Recebe um objeto tipo Person e adiciona ela ao banco de dados
- * @param {Person} person 
+ * @param {Person} person - instance of a person
  */
 const writePerson = (person) => {
     people[person.cpf] = person;
@@ -14,7 +13,7 @@ const writePerson = (person) => {
 /**
  * Procura pela pessoa no banco de dados pelo CPF
  * @param {string} cpf 
- * @returns {Person} || undefined
+ * @returns {Person | undefined} - a person object or undefined
  */
 const readPerson = (cpf) => {
     const person = people[cpf];
