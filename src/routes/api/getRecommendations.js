@@ -24,7 +24,8 @@ module.exports = (req, res) => {
     const person = people.find(person => person.cpf === cpf);
 
     if (!person) {
-        return res.status(404).json({ error: 'Usuário não encontrado' });
+        const errorResponse = createErrorResponse(404, 'Usuário não encontrado');
+        return res.status(404).json(errorResponse);
     }
 
     // obtem lista de amigos da aj
@@ -50,6 +51,7 @@ module.exports = (req, res) => {
         .sort((a, b) => b[1] - a[1])
         .map(([cpf]) => cpf);
 
-    res.json(sortedRecommendations);
+    const successResponse = createSuccessResponse({ data: sortedRecommendations });
+    return res.status(200).json(successResponse);
 
 }
