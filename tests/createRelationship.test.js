@@ -2,7 +2,7 @@ const request = require('supertest');
 
 const app = require('../src/app');
 
-describe('POST v1/person', () => {
+describe('POST v1/relationship', () => {
     test('deve criar relação entre cpf1 e cpf2', async () => {
         const cpf1 = "77777777777", cpf2 = "55555555555";
         // create two users

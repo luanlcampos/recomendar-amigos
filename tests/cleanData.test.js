@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../src/app');
 
 
-describe('POST v1/person', () => {
+describe('POST v1/clean', () => {
     test('deve limpar todos os usuários e relações do banco de dados', async () => {
         // create a person
         await request(app)
