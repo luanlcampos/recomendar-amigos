@@ -1,4 +1,3 @@
-const Person = require('../Person');
 const globalData = require('./globalData');
 let { people, relationshipsAJ } = globalData;
 
@@ -19,7 +18,6 @@ const writePerson = (person) => {
  */
 const readPerson = (cpf) => {
     const person = people[cpf];
-    console.log("readPearson", person);
     return person;
 }
 
@@ -77,6 +75,7 @@ const readRecommendation = (myCpf) => {
     // Ordena as recomendações pela relevância
     const sortedRecommendations = Object.entries(recommendations)
         // apenas scores > 0 são considerados para ordenamento
+        // eslint-disable-next-line no-unused-vars
         .filter(([_, score]) => score > 0)
         .sort((a, b) => b[1] - a[1])
         .map(([cpf]) => cpf);

@@ -23,6 +23,7 @@ app.use((req, res, next) => {
  * responsável por suportar todos os erros da aplicação
  * quando o erro não foi passado para esse middleware, ele irá utilizar uma resposta genérica
  * */
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
     const status = err.error?.code || err.code || 500;
     const message = err.error?.message || err.message || 'incapaz de processar a requisição';
