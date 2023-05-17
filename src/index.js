@@ -1,11 +1,7 @@
-const express = require('express')
-const app = express()
-const port = 3000
+/**
+ * Arquivo responsável por chamar e iniciar o servidor
+ * Outras configurações vitais como configurar dotenv,
+ * processar requisições não suportadas devem ser feitas nesse arquivo 
+ * */
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+require('./server');
