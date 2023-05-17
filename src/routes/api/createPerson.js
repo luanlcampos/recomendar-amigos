@@ -1,6 +1,6 @@
 // POST v1/person
 
-const { createSuccessResponse, createErrorResponse } = require("../../response");
+const { createSuccessResponse, createErrorResponse, createInvalidCPFResponse } = require("../../response");
 const Person = require('../../model/Person');
 
 /**
@@ -29,7 +29,7 @@ module.exports = (req, res) => {
 
         res.status(200).json(successResponse);
     } catch (error) {
-        const errorResponse = createErrorResponse(400, 'Requisição inválida: Ocorreu um erro na criação de uma pessoa');
+        const errorResponse = createInvalidCPFResponse();
         console.warn(error.message);
         res.status(400).json(errorResponse);
     }

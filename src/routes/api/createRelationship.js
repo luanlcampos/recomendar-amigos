@@ -1,5 +1,5 @@
 const Person = require("../../model/Person");
-const { createErrorResponse, createSuccessResponse } = require("../../response");
+const { createErrorResponse, createSuccessResponse, createInvalidCPFResponse, createUserNotFoundResponse } = require("../../response");
 const { validateCPF } = require("../../utils/validateCPF");
 
 /**
@@ -13,7 +13,7 @@ module.exports = (req, res) => {
 
     // validar os dois cpfs
     if (!validateCPF(cpf1) || !validateCPF(cpf2)) {
-        const errorResponse = createErrorResponse(400, "CPF inválido");
+        const errorResponse = createInvalidCPFResponse();
         return res.status(errorResponse.error.code).json(errorResponse);
     }
 
@@ -23,7 +23,7 @@ module.exports = (req, res) => {
 
 
     if (!person1 || !person2) {
-        const errorResponse = createErrorResponse(404, "Usuário não cadastrado");
+        const errorResponse = createUserNotFoundResponse();
         return res.status(errorResponse.error.code).json(errorResponse);
     }
 

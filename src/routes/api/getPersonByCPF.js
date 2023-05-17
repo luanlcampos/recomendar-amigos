@@ -1,5 +1,5 @@
 const Person = require("../../model/Person");
-const { createSuccessResponse, createErrorResponse } = require("../../response");
+const { createSuccessResponse, createUserNotFoundResponse } = require("../../response");
 
 /**
  * Recebe CPF na URL e retorna os dados da pessoa 
@@ -17,6 +17,6 @@ module.exports = (req, res) => {
         return res.status(200).json(successResponse);
     }
 
-    const errorResponse = createErrorResponse(404, "Usuário não encontrado");
+    const errorResponse = createUserNotFoundResponse();
     return res.status(404).json(errorResponse);
 }

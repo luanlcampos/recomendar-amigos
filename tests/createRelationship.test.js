@@ -38,7 +38,7 @@ describe('POST v1/relationship', () => {
 
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
-        expect(res.body.error).toHaveProperty('message', 'CPF inválido');
+        expect(res.body.error).toHaveProperty('message', 'CPF Inválido');
     });
 
     test('deve retornar 404: CPF não cadastrado', async () => {
@@ -52,7 +52,7 @@ describe('POST v1/relationship', () => {
 
         expect(res.statusCode).toBe(404);
         expect(res.body).toHaveProperty('status', 'error');
-        expect(res.body.error).toHaveProperty('message', 'Usuário não cadastrado');
+        expect(res.body.error).toHaveProperty('message', 'Usuário não encontrado');
     });
 
     test('deve retornar 400: relação já existente', async () => {

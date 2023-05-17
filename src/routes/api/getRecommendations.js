@@ -1,4 +1,4 @@
-const { createErrorResponse, createSuccessResponse } = require("../../response");
+const { createSuccessResponse, createInvalidCPFResponse, createUserNotFoundResponse } = require("../../response");
 const { validateCPF } = require('../../utils/validateCPF');
 const { readRecommendation, readPerson } = require('../../model/data/index');
 
@@ -16,14 +16,14 @@ module.exports = (req, res) => {
 
     // Verifica se o CPF tem 11 dígitos numéricos
     if (!validateCPF(cpf)) {
-        const errorResponse = createErrorResponse(400, 'CPF inválido');
+        const errorResponse = createInvalidCPFResponse();
         return res.status(400).json(errorResponse);
     }
 
     const person = readPerson(cpf);
 
     if (!person) {
-        const errorResponse = createErrorResponse(404, 'Usuário não encontrado');
+        const errorResponse = createUserNotFoundResponse();
         return res.status(404).json(errorResponse);
     }
 

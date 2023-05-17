@@ -107,7 +107,7 @@ describe('GET v1/recommendations/:CPF', () => {
 
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
-        expect(res.body.error).toHaveProperty('message', 'CPF inválido');
+        expect(res.body.error).toHaveProperty('message', 'CPF Inválido');
     });
 
     test('deve retornar erro: cpf não cadastrado', async () => {

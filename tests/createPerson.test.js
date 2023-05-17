@@ -46,6 +46,6 @@ describe('POST v1/person', () => {
         expect(res.body).toHaveProperty('status', 'error');
         expect(res.body).toHaveProperty('error');
         expect(res.body.error.code).toBe(400);
-        expect(res.body.error.message).toBe('Requisição inválida: Ocorreu um erro na criação de uma pessoa');
+        expect(res.body.error.message).toBe('CPF Inválido');
     });
 })
