@@ -1,3 +1,5 @@
+// POST v1/person
+
 const globalData = require("../../model/data/globalData");
 const { createSuccessResponse, createErrorResponse } = require("../../response");
 const Person = require('../../model/Person');
@@ -18,7 +20,8 @@ module.exports = (req, res) => {
 
         // Verifica se a pessoa já está cadastrada
         if (globalData.people.find(p => p.cpf === person.cpf)) {
-            return res.status(400).json({ error: 'Usuário já cadastrado' });
+            const errorResponse = createErrorResponse(400, 'Usuário já cadastrado');
+            return res.status(400).json(errorResponse);
         }
 
         // adiciona pessoa na lista de usuários
@@ -30,7 +33,7 @@ module.exports = (req, res) => {
 
         res.status(200).json(successResponse);
     } catch (error) {
-        const errorResponse = createErrorResponse(400, "Requisição inválida: Ocorreu um erro na criação de uma pessoa");
+        const errorResponse = createErrorResponse(400, 'Requisição inválida: Ocorreu um erro na criação de uma pessoa');
         console.warn(error.message);
         res.status(400).json(errorResponse);
     }
