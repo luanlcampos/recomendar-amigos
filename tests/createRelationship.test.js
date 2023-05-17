@@ -50,8 +50,6 @@ describe('POST v1/relationship', () => {
             .set('Content-Type', 'application/json')
             .send({ cpf1, cpf2 });
 
-        console.log(res.body);
-
         expect(res.statusCode).toBe(404);
         expect(res.body).toHaveProperty('status', 'error');
         expect(res.body.error).toHaveProperty('message', 'Usuário não cadastrado');
@@ -66,7 +64,6 @@ describe('POST v1/relationship', () => {
             .set('Content-Type', 'application/json')
             .send({ cpf1, cpf2 });
 
-        console.log(res.body);
 
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('status', 'error');
