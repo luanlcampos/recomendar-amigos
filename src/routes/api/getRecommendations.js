@@ -21,7 +21,7 @@ module.exports = (req, res) => {
         return res.status(400).json(errorResponse);
     }
 
-    const person = people.find(person => person.cpf === cpf);
+    const person = people[cpf];
 
     if (!person) {
         const errorResponse = createErrorResponse(404, 'Usuário não encontrado');

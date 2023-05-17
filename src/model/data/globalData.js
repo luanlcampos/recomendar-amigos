@@ -1,6 +1,6 @@
 // src/data/globalData.js
 
-let people = [];
+let people = {};
 let relationships = [];
 let relationshipsAJ = {};
 

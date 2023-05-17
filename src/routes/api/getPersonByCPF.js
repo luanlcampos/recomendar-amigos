@@ -10,7 +10,7 @@ const { createSuccessResponse, createErrorResponse } = require("../../response")
 module.exports = (req, res) => {
     const { cpf } = req.params;
 
-    const person = globalData.people.find(person => person.cpf === cpf);
+    const person = globalData.people[cpf];
 
     if (person) {
         const successResponse = createSuccessResponse(person);

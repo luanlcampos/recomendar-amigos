@@ -19,13 +19,13 @@ module.exports = (req, res) => {
         const person = new Person(cpf, name);
 
         // Verifica se a pessoa já está cadastrada
-        if (globalData.people.find(p => p.cpf === person.cpf)) {
+        if (people[person.cpf]) {
             const errorResponse = createErrorResponse(400, 'Usuário já cadastrado');
             return res.status(400).json(errorResponse);
         }
 
         // adiciona pessoa na lista de usuários
-        people.push(person);
+        people[person.cpf] = person;
         // cria uma nova lista de relações vazia para o usuário
         relationshipsAJ[person.cpf] = [];
 

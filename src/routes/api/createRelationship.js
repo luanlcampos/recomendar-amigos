@@ -11,8 +11,13 @@ const { validateCPF } = require("../../utils/validateCPF");
 module.exports = (req, res) => {
     const { cpf1, cpf2 } = req.body;
     const { people, relationshipsAJ } = globalData;
-    const person1 = people.find(person => person.cpf === cpf1);
-    const person2 = people.find(person => person.cpf === cpf2);
+
+    // const person1 = people.find(person => person.cpf === cpf1);
+    // const person2 = people.find(person => person.cpf === cpf2);
+
+    const person1 = people[cpf1];
+    const person2 = people[cpf2];
+
 
     // validar os dois cpfs
     if (!validateCPF(cpf1) || !validateCPF(cpf2)) {
