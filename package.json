@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:watch": "jest --runInBand --watch --",
-    "test": "jest --runInBand --",
+    "test:coverage": "jest --runInBand --coverage",
+    "test:watch": "jest --runInBand --watch",
+    "test": "jest --runInBand",
     "dev": "nodemon ./src/index.js --watch src",
     "start": "node src/index.js"
   },
