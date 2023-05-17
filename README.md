@@ -24,13 +24,24 @@ cd recomendar-amigos
 npm install
 ```
 
-## 4. Start the server:
+## 4. Start the server on development mode:
 
 ```bash
- npm start
+ npm run dev
 ```
 
 ## 5. The API will be available at http://localhost:3000.
+
+## NPM Scripts available
+
+| Name          | Command                                      | Description                                                                                                                                 |
+| ------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| test:coverage | jest --runInBand --coverage                  | Runs the test suite using Jest and generates a coverage report                                                                              |
+| test:watch    | jest --runInBand --watch                     | Runs Jest in watch mode. It will continuously monitor your files for changes and re-run the tests automatically whenever a file is modified |
+| test          | jest --runInBand                             | Runs the test suite using Jest                                                                                                              |
+| dev           | nodemon ./src/index.js --watch src           | Starts your application in development mode using Nodemon                                                                                   |
+| start         | node src/index.js                            | Starts your application by running the `index.js` file using Node.js                                                                        |
+| lint          | eslint --config .eslintrc.js src/** tests/** | Analyzes the code on src and tests folder and report any linting error or warning                                                           |
 
 # Project Structure
 
