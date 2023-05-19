@@ -2,6 +2,8 @@
 
 This is a Node.js API for recommending friends of friends based on a given person's CPF (Cadastro de Pessoas Físicas). The API allows creating persons, establishing relationships between them, and retrieving friend recommendations.
 
+[Click here](https://www.notion.so/luanlcampos/Recomendar-Amigos-API-8a5ff7e6bc7748db935fa9c6868f31e0?pvs=4) to access the Notion document. There you can find more about my thoughts and processes of this API.
+
 # Getting Started
 
 To run the API locally, follow these steps:
