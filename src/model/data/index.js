@@ -1,13 +1,12 @@
 const globalData = require('./globalData');
-let { people, relationshipsAJ } = globalData;
+let { people } = globalData;
 
 /**
  * Recebe um objeto tipo Person e adiciona ela ao banco de dados
  * @param {Person} person - instance of a person
  */
 const writePerson = (person) => {
-    people[person.cpf] = person;
-    relationshipsAJ[person.cpf] = [];
+    people.set(person.cpf, person);
 }
 
 /**
@@ -16,7 +15,7 @@ const writePerson = (person) => {
  * @returns {Person | undefined} - a person object or undefined
  */
 const readPerson = (cpf) => {
-    const person = people[cpf];
+    const person = people.get(cpf);
     return person;
 }
 
@@ -24,8 +23,7 @@ const readPerson = (cpf) => {
  * Deleta todos os dados do banco de dados
  */
 const deleteData = () => {
-    people = {};
-    relationshipsAJ = {};
+    people.clear();
 }
 
 /**
@@ -34,7 +32,7 @@ const deleteData = () => {
  * @returns {Array<string>} lista de relações
  */
 const readRelationship = (cpf) => {
-    return relationshipsAJ[cpf];
+    return people.get(cpf).relationships;
 }
 
 /**
@@ -43,8 +41,12 @@ const readRelationship = (cpf) => {
  * @param {string} cpf2 
  */
 const writeRelationship = (cpf1, cpf2) => {
-    relationshipsAJ[cpf1].push(cpf2);
-    relationshipsAJ[cpf2].push(cpf1);
+    // armazena as pessoas para facilitar leitura
+    let p1 = people.get(cpf1);
+    let p2 = people.get(cpf2);
+
+    people.set(cpf1, { ...p1, relationships: [...p1.relationships, cpf2] });
+    people.set(cpf2, { ...p2, relationships: [...p2.relationships, cpf1] });
 }
 
 
@@ -56,13 +58,13 @@ const writeRelationship = (cpf1, cpf2) => {
  */
 const readRecommendation = (myCpf) => {
     // obtem lista de amigos da aj
-    const friends = relationshipsAJ[myCpf];
+    const friends = people.get(myCpf).relationships;
 
     const recommendations =
         // reduce para iterar na array filtrada e criar um novo objeto contendo
         // o score de cada recomendação
         friends.reduce((acc, cpf) => {
-            relationshipsAJ[cpf].forEach(friend => {
+            people.get(cpf).relationships.forEach(friend => {
                 if (!friends.includes(friend) && friend !== myCpf) {
                     acc[friend] = (acc[friend] || 0) + 1;
                 }

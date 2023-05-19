@@ -1,39 +1,21 @@
 // src/data/globalData.js
+// eslint-disable-next-line no-unused-vars
+const { Person } = require('../Person');
 
 /**
- * people é um map onde a key é o cpf e o valor é um objeto do tipo People
+ * people é um ES6 map onde a key é o cpf e o valor é um objeto do tipo People
+ * @type {Map<string, Person>}
  * @example
  *  {
  *      "11111111111": {
  *          cpf: "11111111111",
- *          name: "Joao"
+ *          name: "Joao",
+ *          relationships: []
  *      }
  *  } 
  */
-let people = {};
-
-/**
-* relationshipsAJ é uma lista adjacente onde a chave é os cpf do usuário,
-* e o valor é uma lista contendo todas a relações do usuário.
-* como toda relação é bidirecional, cpf1 adiciona cpf2 e cpf2 adiciona cpf1 
-* @example
-* // Antes da relação
-* {
-*  "11111111111": [],
-*  "22222222222": []
-* }
-* 
-* // Depois da relação
-* 
-* {
-*  "11111111111": ["22222222222"],
-*  "22222222222": ["11111111111"]
-* }
- *  
- */
-let relationshipsAJ = {};
+let people = new Map();
 
 module.exports = {
     people,
-    relationshipsAJ
 };
