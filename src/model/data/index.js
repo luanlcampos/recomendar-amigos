@@ -1,5 +1,5 @@
 const globalData = require('./globalData');
-let { people, relationshipsAJ } = globalData;
+const { people } = globalData;
 
 /**
  * Recebe um objeto tipo Person e adiciona ela ao banco de dados
@@ -7,7 +7,6 @@ let { people, relationshipsAJ } = globalData;
  */
 const writePerson = (person) => {
     people[person.cpf] = person;
-    relationshipsAJ[person.cpf] = [];
 }
 
 /**
@@ -16,16 +15,16 @@ const writePerson = (person) => {
  * @returns {Person | undefined} - a person object or undefined
  */
 const readPerson = (cpf) => {
-    const person = people[cpf];
-    return person;
+    return people[cpf];
 }
 
 /**
  * Deleta todos os dados do banco de dados
  */
 const deleteData = () => {
-    people = {};
-    relationshipsAJ = {};
+    for (let key in people) {
+        delete people[key];
+    }
 }
 
 /**
@@ -34,7 +33,7 @@ const deleteData = () => {
  * @returns {Array<string>} lista de relações
  */
 const readRelationship = (cpf) => {
-    return relationshipsAJ[cpf];
+    return people[cpf].relationships;
 }
 
 /**
@@ -43,8 +42,8 @@ const readRelationship = (cpf) => {
  * @param {string} cpf2 
  */
 const writeRelationship = (cpf1, cpf2) => {
-    relationshipsAJ[cpf1].push(cpf2);
-    relationshipsAJ[cpf2].push(cpf1);
+    people[cpf1].relationships.push(cpf2);
+    people[cpf2].relationships.push(cpf1);
 }
 
 
@@ -56,13 +55,13 @@ const writeRelationship = (cpf1, cpf2) => {
  */
 const readRecommendation = (myCpf) => {
     // obtem lista de amigos da aj
-    const friends = relationshipsAJ[myCpf];
+    const friends = people[myCpf].relationships;
 
     const recommendations =
         // reduce para iterar na array filtrada e criar um novo objeto contendo
         // o score de cada recomendação
         friends.reduce((acc, cpf) => {
-            relationshipsAJ[cpf].forEach(friend => {
+            people[cpf].relationships.forEach(friend => {
                 if (!friends.includes(friend) && friend !== myCpf) {
                     acc[friend] = (acc[friend] || 0) + 1;
                 }
