@@ -1,5 +1,5 @@
 const globalData = require('./globalData');
-let { people } = globalData;
+const { people } = globalData;
 
 /**
  * Recebe um objeto tipo Person e adiciona ela ao banco de dados

@@ -14,7 +14,7 @@ const { Person } = require('../Person');
  *      }
  *  } 
  */
-let people = new Map();
+const people = new Map();
 
 module.exports = {
     people,
