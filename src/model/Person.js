@@ -13,6 +13,7 @@ class Person {
     constructor(cpf, name) {
         this.cpf = cpf;
         this.name = name;
+        this.relationships = [];
 
         if (!validateCPF(this.cpf)) {
             throw new Error('CPF inválido');
